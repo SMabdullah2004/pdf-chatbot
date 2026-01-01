@@ -1,0 +1,25 @@
+# FastAPI server
+fastapi==0.102.0
+uvicorn[standard]==0.23.1
+python-multipart==0.0.6
+pydantic==1.10.12
+
+# PDF handling
+PyPDF2==3.1.0
+
+# RAG & embeddings
+langchain==0.2.20
+langchain-huggingface==0.0.20
+langchain-text-splitters==0.0.17
+langchain-community==0.0.7
+
+# Transformers & LLM
+transformers==4.44.2
+torch==2.1.0
+pydantic==1.10.12
+
+# Sentence embeddings
+sentence-transformers==2.2.2
+
+# Vector similarity
+faiss-cpu==1.7.4
