@@ -15,14 +15,14 @@ def create_knowledge_base(text: str):
     """
     global vector_db, llm_pipeline
 
-    # Split text into chunks (smaller chunks improve relevance)
+    # Split text into chunks (larger size for more context)
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
+        chunk_size=1000,
         chunk_overlap=100
     )
     documents = splitter.create_documents([text])
 
-    # Embeddings (accurate model)
+    # Embeddings (more accurate model)
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-mpnet-base-v2"
     )
@@ -34,7 +34,7 @@ def create_knowledge_base(text: str):
     llm_pipeline = pipeline(
         "text2text-generation",
         model="google/flan-t5-base",
-        max_length=256
+        max_length=512
     )
 
 
@@ -42,26 +42,23 @@ def get_chatbot_response(query: str) -> str:
     if vector_db is None or llm_pipeline is None:
         return "Please upload a PDF first."
 
-    # Fetch top 5 relevant chunks
+    # Fetch top 5 chunks for better coverage
     docs = vector_db.similarity_search(query, k=5)
     if not docs:
         return "No relevant information found in the uploaded PDF."
 
     context = "\n".join([doc.page_content for doc in docs])
 
-    # STRONG prompt for concise PDF-only answers
+    # Detailed RAG-style prompt
     prompt = f"""
-You are an expert assistant. Answer the question using ONLY the content from the PDF below.
-Do NOT add any information that is not in the PDF.
-Be concise and precise. If the answer is not present, say "The PDF does not contain this information."
+You are an expert assistant. Answer the question ONLY based on the context below from the uploaded PDF.
+Do NOT invent information. Combine relevant details from all retrieved chunks to give a clear, detailed, and accurate answer.
 
 Context:
 {context}
 
 Question:
 {query}
-
-Answer:
 """
 
     # Generate answer

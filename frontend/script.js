@@ -35,3 +35,41 @@ async function uploadPDF() {
     uploadBtn.disabled = false;
   }
 }
+
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const chatBox = document.getElementById('chatBox');
+  if (!input.value.trim()) return;
+
+  // User message
+  const userMsg = document.createElement("div");
+  userMsg.className = "message user";
+  userMsg.textContent = input.value;
+  chatBox.appendChild(userMsg);
+
+  const question = input.value;
+  input.value = "";
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Bot typing
+  const botMsg = document.createElement("div");
+  botMsg.className = "message bot";
+  botMsg.textContent = "Typing...";
+  chatBox.appendChild(botMsg);
+
+  try {
+    const res = await fetch('http://localhost:8000/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
+
+    const data = await res.json();
+    botMsg.textContent = data.answer;
+  } catch {
+    botMsg.textContent = "Error getting response.";
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
