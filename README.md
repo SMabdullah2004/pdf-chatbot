@@ -25,33 +25,6 @@ Built with:
 
 ## 📂 Project Structure
 
-# 📄 AI PDF Chatbot
-
-An AI-powered chatbot that answers questions **only based on the content of an uploaded PDF** using **RAG (Retrieval-Augmented Generation)**.
-
-Built with:
-
-- **FastAPI** – backend REST API
-- **HuggingFace Transformers** – LLM
-- **LangChain** – text splitting & embeddings
-- **FAISS** – vector database for similarity search
-- **HTML/CSS/JS** – responsive frontend
-
----
-
-## 🏆 Features
-
-- Upload a PDF and automatically build a knowledge base.
-- Ask questions and receive answers **grounded only in the uploaded PDF**.
-- Accurate RAG-style answers: no fabricated information.
-- Dark-themed, responsive, animated chat interface.
-- FastAPI backend with REST API for easy integration.
-- Fully containerized with **Docker** for deployment.
-
----
-
-## 📂 Project Structure
-
 pdf-chatbot/
 │
 ├── backend/
@@ -68,22 +41,6 @@ pdf-chatbot/
 ├── Dockerfile # Docker container setup
 └── README.md # Project documentation
 
----
-
-## 1️⃣ Prerequisites
-
-- Python 3.11+ → [Download](https://www.python.org/downloads/)
-- Git → [Download](https://git-scm.com/downloads)
-- Docker → [Download](https://www.docker.com/products/docker-desktop)
-- Browser for frontend (Chrome, Edge, Firefox, etc.)
-
----
-
-## 2️⃣ Clone Repository
-
-````bash
-git clone https://github.com/SMabdullah2004/pdf-chatbot.git
-cd pdf-chatbot
 
 ---
 
@@ -102,10 +59,10 @@ cd pdf-chatbot
 git clone https://github.com/SMabdullah2004/pdf-chatbot.git
 cd pdf-chatbot
 
-Create & Activate Virtual Environment
+3️⃣ Setup Python Virtual Environment (Optional but Recommended)
 python -m venv venv
 
-Activate:
+Activate Virtual Environment
 
 Windows PowerShell:
 
@@ -120,36 +77,37 @@ Windows CMD:
 Linux/macOS:
 
 source venv/bin/activate
-Install Python Dependencies
+
+4️⃣ Install Dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 
 
 Dependencies include: FastAPI, uvicorn, PyPDF2, transformers, torch, FAISS, LangChain, sentence-transformers, python-multipart.
 
-5️⃣ Running Backend (FastAPI)
+5️⃣ Run Backend (FastAPI)
 uvicorn backend.main:app --reload
 
 
-API URL: http://127.0.0.1:8000
+API will be available at http://127.0.0.1:8000
 
-Swagger docs: http://127.0.0.1:8000/docs
+Swagger docs at http://127.0.0.1:8000/docs
 
-6️⃣ Running Frontend
-Option 1 – Open HTML directly
+6️⃣ Run Frontend
+Option 1 – Open HTML Directly
 
-Go to frontend/
+Navigate to frontend/
 
-Open index.html in browser
+Open index.html in your browser
 
 Upload PDF → Ask questions → Answers appear PDF-grounded
 
-Option 2 – Serve via local server
+Option 2 – Serve via Local Server
 cd frontend
 python -m http.server 5500
 
 
-Access frontend at: http://localhost:5500
+Access frontend at http://localhost:5500
 
 7️⃣ Using the Chatbot
 
@@ -157,25 +115,21 @@ Click Upload PDF → Wait for "PDF Uploaded Successfully"
 
 Type your question → Click Send
 
-The answer uses only PDF content, combining relevant chunks.
+Answers are strictly based on PDF content and combine top relevant chunks
 
-⚠️ Chatbot fetches top 5 relevant chunks for accuracy.
+Chatbox auto-scrolls for new messages
 
 8️⃣ API Endpoints
 Endpoint	Method	Description
 /	GET	Check API status
 /upload	POST	Upload PDF & create knowledge base
 /chat	POST	Ask a question and get PDF-based answer
-
-Example /chat request:
-
+Example /chat Request
 {
   "question": "What is the main topic of the PDF?"
 }
 
-
-Example /chat response:
-
+Example /chat Response
 {
   "answer": "The PDF explains how to build an AI PDF chatbot using FastAPI, LangChain, and FAISS..."
 }
@@ -194,17 +148,17 @@ Build Docker Image
 docker build -t pdf-chatbot .
 
 Run Docker Container
-docker run -p 8000:8000 pdf-chatbot
+docker run -d -p 8000:8000 --name pdf-chatbot-container pdf-chatbot
 
 
 Backend URL: http://localhost:8000
 
-Frontend: Open index.html or serve via local server.
+Frontend: Open index.html or serve via local server
 
-Stop Docker Container
+Stop / Remove Container
 docker ps
-docker stop <container_id>
-docker rm <container_id>
+docker stop pdf-chatbot-container
+docker rm pdf-chatbot-container
 
 🔟 GitHub Version Control
 Initialize Repository
@@ -216,4 +170,13 @@ Add Remote & Push
 git remote add origin https://github.com/SMabdullah2004/pdf-chatbot.git
 git branch -M main
 git push -u origin main
-````
+
+🎨 Frontend Styling Notes
+
+Dark blue + white theme
+
+Responsive chat interface
+
+Smooth button hover animations
+
+Auto-scroll chatbox for new messages
